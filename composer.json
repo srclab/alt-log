@@ -1,0 +1,28 @@
+{
+    "name": "srclab/alt-log",
+    "description": "Laravel logging package",
+    "type": "library",
+    "license": "Private",
+    "require": {
+        "php": ">=7.0.0",
+        "laravel/framework": ">5.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "SrcLab\\AltLog\\": "src/"
+        },
+        "files": [
+            "src/Support/helpers.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SrcLab\\AltLog\\AltLogServiceProvider"
+            ],
+            "aliases": {
+                "AltLog": "SrcLab\\AltLog\\Support\\Facades\\AltLog"
+            }
+        }
+    }
+}

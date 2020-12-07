@@ -1,0 +1,133 @@
+//bootstrap
+@import '~bootstrap/scss/bootstrap'
+
+//dataTables
+@import '~datatables.net-bs4/css/dataTables.bootstrap4'
+
+//fortawesome
+@import '~@fortawesome/fontawesome-free/scss/fontawesome'
+@import '~@fortawesome/fontawesome-free/scss/regular'
+@import '~@fortawesome/fontawesome-free/scss/solid'
+@import '~@fortawesome/fontawesome-free/scss/brands'
+
+body
+    font-size: .875rem
+
+
+.sidebar
+    position: fixed
+    top: 0
+    bottom: 0
+    left: 0
+    z-index: 100 /* Behind the navbar */
+    padding: 0
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1)
+
+
+.sidebar-sticky
+    position: -webkit-sticky
+    position: sticky
+    top: 48px
+    height: calc(100vh - 48px)
+    padding-top: .5rem
+    overflow-x: hidden
+    overflow-y: auto
+
+.navbar-brand
+    padding-top: .75rem
+    padding-bottom: .75rem
+    font-size: 1rem
+    background-color: rgba(0, 0, 0, .25)
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25)
+
+
+.border-top
+    border-top: 1px solid #e5e5e5
+
+.border-bottom
+    border-bottom: 1px solid #e5e5e5
+
+
+.log-list-title
+    margin: 15px 16px 5px 16px
+    position: relative
+
+    .refresh-logs
+        position: absolute
+        top: -6px
+        right: 0
+
+.log-list-delete
+    margin: 5px 16px 5px 16px
+    display: none
+
+.log-list-block
+
+    h5
+        padding: 12px 16px 0
+        margin: 0
+        font-size: 1rem
+
+        i
+            display: inline-block
+            width: 15px
+
+        span
+            padding-left: 1px
+
+    h6
+        padding: 8px 16px 0
+        margin: 0
+        font-size: .75rem
+        color: #6c757d
+
+    ul
+        list-style-type: none
+        font-size: .75rem
+        padding: 0 16px
+        margin: 0
+
+        li
+            margin: 5px 0
+
+            a
+                padding-left: 8px
+                color: #212529
+
+                &.active
+                    color: #28a745
+                    text-decoration: underline
+
+                &:hover
+                    text-decoration: underline !important
+
+            input
+                position: relative
+                top: 2px
+
+
+.log-table-block
+
+    #log-table
+        font-size: .70rem
+
+    .log-row
+        position: relative
+
+    .log-message
+        word-break: break-word
+
+    .log-context
+        white-space: pre-wrap
+        display: none
+
+    .log-show-context
+        position: absolute
+        right: 0
+        top: 5px
+        width: 25px
+        height: 25px
+        cursor: pointer
+        font-size: 1.25rem
+        text-align: center
+
