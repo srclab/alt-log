@@ -43,7 +43,7 @@ class LogManager
         $pars_log_name = explode('/', $log);
 
         if (count($pars_log_name) != 3) {
-            throw new InvalidLogNameException('Неверный формат имени лога');
+            throw new InvalidLogNameException('Invalid log name format.');
         }
 
         return $this->getLogDirectory($pars_log_name[1]).'/'.$pars_log_name[2];
@@ -61,7 +61,7 @@ class LogManager
         $pars_log_name = explode('/', $log);
 
         if (count($pars_log_name) != 3) {
-            throw new InvalidLogNameException('Неверный формат имени лога');
+            throw new InvalidLogNameException('Invalid log name format.');
         }
 
         return [
@@ -234,7 +234,7 @@ class LogManager
                 return rtrim($this->config['alt_logs_path'], '/');
 
             default:
-                throw new InvalidArgumentException('Неверный тип лога.');
+                throw new InvalidArgumentException('Invalid log type.');
         }
     }
 }
