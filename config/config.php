@@ -55,7 +55,7 @@ return [
    */
     'view' => [
         'back_url' => '/',
-        'log_date_format' => 'H:m:s D.MM.Y',
+        'log_date_format' => 'HH:mm:ss DD.MM.YYYY',
     ],
 
     /*
