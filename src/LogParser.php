@@ -72,7 +72,7 @@ class LogParser
      */
     protected function parseLogLine($record, $record_number)
     {
-        $pattern = '/\[(?P<date>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\]\s(?P<channel>\w+).(?P<level>\w+):\s(?P<message>.*[^ ]+)/';
+        $pattern = '/\[(?P<date>\d{4}-\d{2}-\d{2}[T\s]?\d{2}:\d{2}:\d{2}(\.\d{6}\+\d{2}\:\d{2})?)\]\s(?P<channel>\w+).(?P<level>\w+):\s(?P<message>.*[^ ]+)/';
 
         preg_match($pattern, $record, $data);
 

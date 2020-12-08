@@ -21,6 +21,7 @@ class LogController extends Controller
     {
         return view('alt-log::index', [
             'back_url' => config('alt-log.view.back_url', '/'),
+            'log_date_format' => config('alt-log.view.log_date_format'),
         ]);
     }
 

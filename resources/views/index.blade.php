@@ -59,7 +59,10 @@
     var token = '{{ csrf_token() }}';
     var translations = JSON.parse('{!! json_encode(__('alt-log::general.view')) !!}');
     var url_arameters = new URLSearchParams(window.location.search);
-
+    var log_date_format = '{{ $log_date_format }}';
+    var route_delete_log = '{{ route('alt-log::log.delete') }}';
+    var route_get_logs_list = '{{ route('alt-log::log.list') }}';
+    var route_get_log_data = '{{ route('alt-log::log.get') }}';
 
     $(document).ready(function() {
 
@@ -100,7 +103,7 @@
                 logs: logs
             };
 
-            sendRequest("{{ route('alt-log::log.delete') }}", 'post', data, request_result_block, function (result) {
+            sendRequest(route_delete_log, 'post', data, request_result_block, function (result) {
                 updateLogList();
             });
         }
@@ -145,7 +148,7 @@
         log_list_block.html('');
         $('.log-list-delete').hide();
 
-        sendRequest("{{ route('alt-log::log.list') }}", 'post', {}, request_result_block, function (result) {
+        sendRequest(route_get_logs_list, 'post', {}, request_result_block, function (result) {
 
             request_result_block.html('');
 
@@ -255,7 +258,7 @@
             log: log
         };
 
-        sendRequest("{{ route('alt-log::log.get') }}", 'post', data, request_result_block, function (result) {
+        sendRequest(route_get_log_data, 'post', data, request_result_block, function (result) {
             request_result_block.html('');
             setLogParameterForUrl(result.log_info.log);
             setActiveMenuElement(result.log_info.log);
@@ -275,7 +278,7 @@
         table += '<tr>';
         table += '<th class="text-center" style="width:5%">#</th>';
         table += '<th class="text-center" style="width:10%">'+translations.table.date+'</th>';
-        table += '<th class="text-center" style="width:6%">'+translations.table.level+'</th>';
+        table += '<th class="text-center" style="width:8%">'+translations.table.level+'</th>';
         table += '<th>'+translations.table.message+'</th>';
         table += '</tr>';
         table += '</thead>';
@@ -284,8 +287,8 @@
         for (key in log_data) {
             table += '<tr>';
             table += '<td class="text-center">'+log_data[key]['number']+'</td>';
-            table += '<td class="text-center">'+log_data[key]['date']+'</td>';
-            table += '<td class="text-center">'+log_data[key]['level']+'</td>';
+            table += '<td class="text-center">'+insertDate(log_data[key]['date'])+'</td>';
+            table += '<td class="text-center">'+insertLevel(log_data[key]['level'])+'</td>';
             table += '<td class="log-row"><div class="log-message">'+escapeHtml(log_data[key]['message'])+'</div>'+insertContext(log_data[key]['context'], log_data[key]['number'])+'</td>';
             table += '</tr>';
         }
@@ -302,6 +305,60 @@
             "order": [[ 0, "desc" ]],
             language: translations.datatables
         });
+    }
+
+    function insertDate(date) {
+        return moment(date).format(log_date_format);
+    }
+
+    function insertLevel(level) {
+
+        var color = '#b5bbc8';
+        var icon = 'fas fa-bug';
+
+        switch (level) {
+            case 'DEBUG':
+                color = '#b5bbc8';
+                icon = 'fas fa-bug';
+                break;
+
+            case 'INFO':
+                color = '#3c8dbc';
+                icon = 'fas fa-info';
+                break;
+
+            case 'NOTICE':
+                color = '#555299';
+                icon = 'fas fa-flag';
+                break;
+
+            case 'WARNING':
+                color = '#f39c12';
+                icon = 'fas fa-exclamation-triangle';
+                break;
+
+            case 'ERROR':
+                color = '#d33724';
+                icon = 'fas fa-exclamation-triangle';
+                break;
+
+            case 'CRITICAL':
+                color = '#dd4b39';
+                icon = 'fas fa-exclamation-triangle';
+                break;
+
+            case 'ALERT':
+                color = '#dd4b39';
+                icon = 'fas fa-exclamation-triangle';
+                break;
+
+            case 'EMERGENCY':
+                color = '#dd4b39';
+                icon = 'fas fa-exclamation-triangle';
+                break;
+        }
+
+        return '<span style="color: '+color+';"><i class="'+icon+'"></i>&nbsp;'+level+'</span>';
     }
 
     function insertContext(context, number) {
