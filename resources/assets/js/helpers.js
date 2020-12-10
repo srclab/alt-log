@@ -4,24 +4,7 @@ window.sendRequest = function (url, method, data, result_container, success_hand
         enable_preloader = true;
     }
 
-    $(result_container).html('');
-
-    /**
-     * Добавления токена.
-     */
-    try {
-
-        if (['POST', 'post', 'DELETE', 'delete', 'PUT', 'put'].indexOf(method) >= 0 && window.token && !data._token) {
-            if (Array.isArray(data)) {
-                data.push({name: "_token", value: window.token});
-            } else {
-                data._token = window.token;
-            }
-        }
-
-    } catch (e) {
-        console.warn(e);
-    }
+    crearResultContainer(result_container);
 
     $.ajax({
         url: url,
@@ -70,12 +53,29 @@ window.sendRequest = function (url, method, data, result_container, success_hand
     });
 }
 
+function crearResultContainer(result_container) {
+
+    if(result_container === null) {
+        return;
+    }
+
+    $(result_container).html('');
+}
 
 function viewSuccessResult(message, result_container) {
+
+    if(result_container === null) {
+        return;
+    }
+
     viewSuccess(result_container, message);
 }
 
 function viewErrorResult(data, result_container) {
+
+    if(result_container === null) {
+        return;
+    }
 
     if(data.validation_errors) {
         return;
@@ -111,6 +111,10 @@ function viewSuccess(alert, message) {
 
 function preloader(show, container) {
 
+    if(container === null) {
+        return;
+    }
+
     if(show) {
         $(container).html('<div class="alert alert-primary">'+translations.request.processing+'</div>')
     } else {
@@ -119,6 +123,13 @@ function preloader(show, container) {
 
 }
 
+window.updateCsrfToken = function(token) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': token
+        }
+    });
+}
 
 window.escapeHtml = function(text) {
     var map = {
