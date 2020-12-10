@@ -63,8 +63,12 @@
     var route_delete_log = '{{ route('alt-log::log.delete') }}';
     var route_get_logs_list = '{{ route('alt-log::log.list') }}';
     var route_get_log_data = '{{ route('alt-log::log.get') }}';
+    var current_active_log = null;
+    var update_log_list_by_schedule = true;
 
     $(document).ready(function() {
+
+        updateCsrfToken(token);
 
         if(updateLogList()) {
             if(hasLogParameterInUrl()) {
@@ -73,6 +77,12 @@
         }
 
     });
+
+    setInterval(function () {
+        if(update_log_list_by_schedule) {
+            updateLogList(true);
+        }
+    }, 60000);
 
 
     $('.refresh-logs').click(function () {
@@ -92,12 +102,11 @@
         });
 
         if(f) {
-            var log_table_block = $('.log-table-block');
-            var log_list_block = $('.log-list-block');
+
             var request_result_block = $('.status-log-list');
 
-            log_table_block.html('');
-            log_list_block.html('');
+            clearLogTable();
+            clearLogList();
 
             var data = {
                 logs: logs
@@ -105,6 +114,7 @@
 
             sendRequest(route_delete_log, 'post', data, request_result_block, function (result) {
                 updateLogList();
+                update_log_list_by_schedule = true;
             });
         }
     });
@@ -131,34 +141,58 @@
         });
 
         if(f) {
+            update_log_list_by_schedule = false;
             $('.log-list-delete').show();
         } else {
+            update_log_list_by_schedule = true;
             $('.log-list-delete').hide();
         }
     });
 
 
-    function updateLogList() {
+    function updateLogList(by_schedule) {
 
-        var log_table_block = $('.log-table-block');
-        var log_list_block = $('.log-list-block');
+        if(by_schedule === undefined) {
+            by_schedule = false;
+        }
+
+        update_log_list_by_schedule = false;
+
         var request_result_block = $('.status-log-list');
 
-        log_table_block.html('');
-        log_list_block.html('');
+        if(by_schedule) {
+            request_result_block = null;
+        } else {
+            clearLogTable();
+            clearLogList();
+            current_active_log = null;
+        }
+
         $('.log-list-delete').hide();
 
         sendRequest(route_get_logs_list, 'post', {}, request_result_block, function (result) {
 
-            request_result_block.html('');
+            if(request_result_block !== null) {
+                request_result_block.html('');
+            }
 
-            renderLogList(result.log_list, result.log_groups, log_list_block);
+            renderLogList(result.log_list, result.log_groups);
+
+            if(by_schedule && current_active_log !== null) {
+                setActiveMenuElement(current_active_log);
+            }
+
+            update_log_list_by_schedule = true;
         });
 
         return true;
     }
 
-    function renderLogList(log_list, log_groups, data_result_area) {
+    function clearLogList() {
+        $('.log-list-block').html('');
+    }
+
+    function renderLogList(log_list, log_groups) {
 
         var grouped_log_list = _.groupBy(log_list, function(item) {
             return item.type;
@@ -180,7 +214,7 @@
         }
 
 
-        data_result_area.html(list);
+        $('.log-list-block').html(list);
 
     }
 
@@ -249,10 +283,9 @@
     }
 
     function getLogData(log) {
-        var log_table_block = $('.log-table-block');
         var request_result_block = $('.status-log');
 
-        log_table_block.html('');
+        clearLogTable();
 
         var data = {
             log: log
@@ -260,13 +293,18 @@
 
         sendRequest(route_get_log_data, 'post', data, request_result_block, function (result) {
             request_result_block.html('');
+            current_active_log = result.log_info.log;
             setLogParameterForUrl(result.log_info.log);
             setActiveMenuElement(result.log_info.log);
-            renderLogTable(result.log_info, result.log_data, log_table_block);
+            renderLogTable(result.log_info, result.log_data);
         });
     }
 
-    function renderLogTable(log_info, log_data, data_result_area) {
+    function clearLogTable() {
+        $('.log-table-block').html('');
+    }
+
+    function renderLogTable(log_info, log_data) {
 
         var table = '';
 
@@ -297,7 +335,7 @@
 
         table += '</table>';
 
-        data_result_area.html(table);
+        $('.log-table-block').html(table);
 
         $('#log-table').DataTable({
             "autoWidth": false,
