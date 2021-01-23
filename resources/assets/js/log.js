@@ -200,9 +200,15 @@ function renderLogListItem(log_list) {
 
     for (key in log_list) {
 
+        var log_name = log_list[key]['name'];
+
+        if (log_name.length > 30) {
+            log_name = log_name.substring(0, 30)+'...';
+        }
+
         list += '<li>';
         list += '<input class="log-checkbox" type="checkbox" value="'+log_list[key]['log']+'">';
-        list += '<a role="button" class="log-link" data-log='+log_list[key]['log']+'>'+log_list[key]['name']+'</a>';
+        list += '<a role="button" class="log-link" data-log='+log_list[key]['log']+' title='+log_list[key]['name']+'>'+log_name+'</a>';
         list += '</a>';
 
         list += '</li>';

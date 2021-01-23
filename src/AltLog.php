@@ -105,7 +105,7 @@ class AltLog implements AltLogContract
     {
         return new RotatingFileHandler(
             $config['path'],
-            $config['days'] ?? 7,
+            $config['max_files'] ?? 7,
             $this->level($config),
             $config['bubble'] ?? true,
             $config['permission'] ?? null,
