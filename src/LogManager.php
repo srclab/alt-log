@@ -203,11 +203,11 @@ class LogManager
 
                 if($file == '..' || $file == '.') continue;
 
-                if (!is_dir($path.$file)) {
+                if (!is_dir($path.'/'.$file)) {
 
                     $file_info = pathinfo($file);
 
-                    if ($file_info['extension'] == 'log') {
+                    if (!empty($file_info['extension']) && $file_info['extension'] == 'log') {
                         $logs_list[] = $file;
                     }
                 }
