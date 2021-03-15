@@ -9,6 +9,7 @@ use SrcLab\AltLog\LogParser;
 use SrcLab\AltLog\Exceptions\LogNotFoundException;
 use SrcLab\AltLog\Exceptions\LargeLogException;
 use Throwable;
+use Log;
 
 class LogController extends Controller
 {
@@ -46,6 +47,7 @@ class LogController extends Controller
             ]);
 
         } catch (Throwable $e) {
+            Log::error($e);
             return $this->returnError(__('alt-log::general.server.server_error'));
         }
     }
@@ -73,6 +75,7 @@ class LogController extends Controller
         } catch (LogNotFoundException $e) {
             return $this->returnError(__('alt-log::general.server.log_not_found'));
         } catch (Throwable $e) {
+            Log::error($e);
             return $this->returnError(__('alt-log::general.server.server_error'));
         }
     }
@@ -100,6 +103,7 @@ class LogController extends Controller
         } catch (LogNotFoundException $e) {
             return $this->returnError(__('alt-log::general.server.log_not_found'));
         } catch (Throwable $e) {
+            Log::error($e);
             return $this->returnError(__('alt-log::general.server.server_error'));
         }
     }
