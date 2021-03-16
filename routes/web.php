@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use SrcLab\AltLog\Http\Controllers\LogController;
 
-Route::get('/', [LogController::class, 'index'])->name('index');
+Route::get('/logs', [LogController::class, 'index'])->name('index');
 
 Route::prefix('log')->name('log.')->group(function () {
     Route::post('/list', [LogController::class, 'list'])->name('list');

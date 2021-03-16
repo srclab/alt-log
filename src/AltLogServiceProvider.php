@@ -39,16 +39,24 @@ class AltLogServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the Horizon routes.
+     * Register the routes.
      *
      * @return void
      */
     protected function registerRoutes()
     {
+        $domain = config('alt-log.route.domain');
+        $path = config('alt-log.route.path');
+        $middleware = config('alt-log.route.middleware');
+
+        if (empty($path) || empty($middleware)) {
+            return;
+        }
+
         Route::group([
-            'domain' => config('alt-log.route.domain'),
-            'prefix' => config('alt-log.route.path'),
-            'middleware' => config('alt-log.route.middleware'),
+            'domain' => $domain,
+            'prefix' => $path,
+            'middleware' => $middleware,
             'as' => 'alt-log::',
             'namespace' => 'SrcLab\AltLog\Http\Controllers',
         ], function () {
@@ -57,7 +65,7 @@ class AltLogServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the Horizon resources.
+     * Register the resources.
      *
      * @return void
      */
@@ -67,7 +75,7 @@ class AltLogServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the Horizon resources.
+     * Register the rranslations.
      *
      * @return void
      */
