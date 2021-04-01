@@ -257,7 +257,7 @@ function renderLogTable(log_info, log_data) {
     table += '<thead>';
     table += '<tr>';
     table += '<th class="text-center" style="width:5%">#</th>';
-    table += '<th class="text-center" style="width:10%">'+translations.table.date+'</th>';
+    table += '<th class="text-center" style="width:11%">'+translations.table.date+'</th>';
     table += '<th class="text-center" style="width:8%">'+translations.table.level+'</th>';
     table += '<th>'+translations.table.message+'</th>';
     table += '</tr>';
