@@ -36,7 +36,7 @@ return [
             'infoEmpty' => 'Записи с 0 до 0 из 0 записей',
             'infoFiltered' => '(отфильтровано из _MAX_ записей)',
             'loadingRecords' => 'Загрузка записей...',
-            'zeroRecords' => 'Записи отсутствуют.',
+            'zeroRecords' => 'Записи отсутствуют',
             'emptyTable' => 'В таблице отсутствуют данные',
             'paginate' => [
                 'first' => 'Первая',
